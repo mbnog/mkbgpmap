@@ -1,6 +1,6 @@
 # mkbgpmap
 
-Original Author: Adam Thompson @athompso
+Original Author: Adam Thompson [@athompso](http://github.com/athompso)
 
 Sponsoring employer: [MERLIN](https://www.merlin.mb.ca/)
 
