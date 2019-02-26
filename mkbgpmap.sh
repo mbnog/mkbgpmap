@@ -67,7 +67,7 @@ tr ' ' '\n' < aspaths.merged \
 			;;
 		16395|55073|30028)	# already did these in the MB section above, skip 'em here
 			;;
-		6509|803|812|852|15290|20161|22652|577|16395|6327|55073|6461)	# known Canadian Transit ASes
+		6509|803|812|852|15290|20161|22652|577|16395|6327|55073|6461|5645)	# known Canadian Transit ASes
 			printf 'as%s [ label="AS%s\\n%s" fillcolor="white:red" style="radial" ];\n' "${ASN}"  "${ASN}" "${HANDLE}" >> "${OUTFILE}"
 			;;
 		6939)	# ASes known to have POPs in Winnipeg
