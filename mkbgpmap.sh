@@ -1,4 +1,8 @@
 #!/bin/bash -e
+# Original author: Adam Thompson <athompson@merlin.mb.ca>
+# Sponsoring employer: MERLIN <http://www.merlin.mb.ca>
+# License: Unlicense <https://unlicense.org/> or Public Domain
+# All warranties etc. disclaimed, code is provided as-is only.
 
 OUTFILE=mbmap.gv
 
