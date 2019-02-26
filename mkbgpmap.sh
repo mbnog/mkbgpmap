@@ -2,25 +2,11 @@
 
 OUTFILE=mbmap.gv
 
-# first try OpenBSD, then Linux/WSL
-NCPUS=$(sysctl -n hw.ncpuonline 2>/dev/null || egrep '^processor\s+: ' /proc/cpuinfo | wc -l)
-BGPSCANNER="/home/athompson/bgpscanner/build/bgpscanner"
-
-#	# Grab our RIB separately, not an HTTP request from Theo, because
-#	# we have NREN visibility that isn't in Theo's dataset.
-#	# Also invert the aspath to match external view.
-#	curl -s -L https://bgpmirror.merlin.mb.ca/bgplg/mrt/rib-dump.mrt \
-#	| /home/athompson/bgpscanner/build/bgpscanner | awk -F\| '$1="=" {print 16796,$3}' \
-#	| perl -MList::MoreUtils -a -e '@u=List::MoreUtils::uniq(reverse(@F));print "@u\n";' \
-#	| sort -n \
-#	| uniq > MERLIN.aspaths
-
 printf 'strict graph MBBGPNEIGHBORS {\n' > "${OUTFILE}"
 printf '	ranksep="2.0 equally"\n' >> "${OUTFILE}"
 printf '	rankdir="LR"\n' >> "${OUTFILE}"
 printf '	subgraph clusterMB {\n' >> "${OUTFILE}"
 printf '		fillcolor="white:yellow" style="radial"\n' >> "${OUTFILE}"
-
 
 curl -s -L https://bgpdb.ciscodude.net/api/asns/province/mb \
 | egrep -v '^(394583)$' \
@@ -82,7 +68,6 @@ tr ' ' '\n' < aspaths.merged \
 		esac
 	fi
 done
-
 
 sed -e 's/^/as/;s/ / -- as/g;s/$/;/' aspaths.merged >> "${OUTFILE}"
 printf '}\n' >> "${OUTFILE}"
