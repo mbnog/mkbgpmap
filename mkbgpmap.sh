@@ -8,6 +8,7 @@ printf '	rankdir="LR"\n' >> "${OUTFILE}"
 printf '	subgraph clusterMB {\n' >> "${OUTFILE}"
 printf '		fillcolor="white:yellow" style="radial"\n' >> "${OUTFILE}"
 
+# AS394583 is the GWL ASN used in the UK - not relevant to us
 curl -s -L https://bgpdb.ciscodude.net/api/asns/province/mb \
 | egrep -v '^(394583)$' \
 | ( while IFS='|' read ASN HANDLE NAME ACTIVE LOC; do  
@@ -21,6 +22,8 @@ curl -s -L https://bgpdb.ciscodude.net/api/asns/province/mb \
 
 	fi
 	done
+
+	# manually ensure these get put into the "Manitoba" subgraph
 	printf 'as16395 [ label="AS16395\\nMBIX" ];\n' 
 	printf 'as55073 [ label="AS55073\\nWPGIX" ];\n' 
 	printf 'as30028 [ label="AS30028\\nMBNETSET" ];\n' 
@@ -41,6 +44,8 @@ cat *.aspaths \
 | uniq > aspaths.merged
 rm *.aspaths
 
+# echo(1) turns a multi-line list into a single shell-style list of tokens
+# Not sure why this was needed, now... it's the data-centric version of "eval"
 MBASNS=$(echo $( curl -s -L https://bgpdb.ciscodude.net/api/asnlist/province/mb ) )
 
 # manually tag some ASes as Canadian, or local, or duplicated
@@ -48,7 +53,6 @@ tr ' ' '\n' < aspaths.merged \
 | sort \
 | uniq \
 | while read ASN ; do
-	# if grep -q "as${ASN} \[ label" "${OUTFILE}" ; then
 	if [[ "${MBASNS}" =~ (^|[[:space:]])${ASN}($|[[:space:]]) ]] ; then
 		true	# already there, do nothing
 	else
